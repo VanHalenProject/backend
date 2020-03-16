@@ -1,10 +1,9 @@
 package com.vanhalen.domain;
 
-import org.w3c.dom.css.RGBColor;
-
 import javax.persistence.Entity;
+import java.awt.*;
 
 @Entity
 public class Skittle {
-    private RGBColor color;
+    private Color color;
 }
