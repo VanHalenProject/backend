@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 .securityContexts(Lists.newArrayList(securityContext()))
                 .securitySchemes(Lists.newArrayList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.vanhalen.api.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("com.vanhalen.endpoints"))
                 .paths(PathSelectors.any())
                 .build()
                 .pathMapping("/")
