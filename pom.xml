@@ -38,6 +38,13 @@
 			<version>2.9.2</version>
 		</dependency>
 
+<!--		MQTT-->
+		<dependency>
+			<groupId>org.eclipse.paho</groupId>
+			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
 <!--		AUTHENTICATION-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
