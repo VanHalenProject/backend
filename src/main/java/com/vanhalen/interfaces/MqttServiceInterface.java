@@ -1,4 +1,4 @@
-package com.vanhalen.messaging;
+package com.vanhalen.interfaces;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
