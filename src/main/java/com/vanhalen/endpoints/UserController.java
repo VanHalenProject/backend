@@ -14,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @Api(tags = {"User management"})
 @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully executed request"),
