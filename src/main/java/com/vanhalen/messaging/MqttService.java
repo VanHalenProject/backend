@@ -17,13 +17,8 @@ public class MqttService implements MqttServiceInterface {
     private IMqttClient _mqttClient;
 
     public MqttService(@Value("${mqtt.client.host-url}") String mqttHostUrl, @Value("${mqtt.client.publisher-id}") String publisherId) throws MqttException {
-        try {
-            _mqttClient = new MqttClient(mqttHostUrl, publisherId);
-            _mqttClient.connect();
-        } catch (MqttException ex) {
-            //TODO action when unable to connect to host URL
-        }
-
+        _mqttClient = new MqttClient(mqttHostUrl, publisherId);
+        _mqttClient.connect();
     }
 
     public void publishMessage(String topic, byte[] payload) throws MqttException {

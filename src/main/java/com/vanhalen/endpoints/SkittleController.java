@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("api/skittles")
 public class SkittleController {
@@ -26,13 +27,10 @@ public class SkittleController {
     @PostMapping("/sort")
     public ResponseEntity SortSkittles(@RequestBody String color){
         try{
-            _mqttService.publishMessage("/VanHalen/color", String.valueOf(color).getBytes());
+            _mqttService.publishMessage("VanHalen/Vending", String.valueOf(color).getBytes());
             return ResponseEntity.status(HttpStatus.OK).body("Mqtt message sent");
-        } catch (MqttException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
-
     }
 }
