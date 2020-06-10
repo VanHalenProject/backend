@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.vanhalen.filters", "com.vanhalen.config", "com.vanhalen.logic", "com.vanhalen.endpoints"})
+@ComponentScan(basePackages = {"com.vanhalen.filters", "com.vanhalen.config", "com.vanhalen.logic", "com.vanhalen.endpoints", "com.vanhalen.messaging"})
 @EntityScan({"com.vanhalen.domain"})
 @EnableJpaRepositories({"com.vanhalen.repositories"})
 public class MainApplication {
