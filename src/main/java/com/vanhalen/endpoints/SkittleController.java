@@ -1,5 +1,6 @@
 package com.vanhalen.endpoints;
 
+import com.vanhalen.domain.Skittle;
 import com.vanhalen.interfaces.SkittleLogicInterface;
 import com.vanhalen.interfaces.MqttServiceInterface;
 import io.swagger.annotations.ApiOperation;
@@ -23,14 +24,28 @@ public class SkittleController {
         _mqttService = mqttService;
     }
 
-    @ApiOperation(value = "Use username and password to obtain JWT bearer token", response = String.class)
+//    @ApiOperation(value = "Use username and password to obtain JWT bearer token", response = String.class)
+//    @PostMapping("/sort")
+//    public ResponseEntity SortSkittles(@RequestBody String color){
+//        try{
+//            _mqttService.publishMessage("VanHalen/Vending", String.valueOf(color).getBytes());
+//            return ResponseEntity.status(HttpStatus.OK).body("Mqtt message sent");
+//        } catch (Exception ex) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+//        }
+//    }
+
     @PostMapping("/sort")
-    public ResponseEntity SortSkittles(@RequestBody String color){
-        try{
-            _mqttService.publishMessage("VanHalen/Vending", String.valueOf(color).getBytes());
+    public ResponseEntity SortSkittles(@RequestBody Skittle skittle) {
+        try {
             return ResponseEntity.status(HttpStatus.OK).body("Mqtt message sent");
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
+
+//    @GetMapping("/get")
+//    public ResponseEntity GetSkittles() {
+//        t
+//    }
 }

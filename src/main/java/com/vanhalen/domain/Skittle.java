@@ -13,13 +13,21 @@ public class Skittle {
     @Id
     private UUID id;
 
-    private Color color;
+    private int red;
 
-    public Skittle(Color color) {
-        this.color = color;
-    }
+    private int orange;
+
+    private int yellow;
+
+    private int green;
+
+    private int purple;
 
     public Skittle() {
+    }
 
+    @Override
+    public String toString() {
+        return new StringBuilder(red+";"+orange+";"+yellow+";"+green+";"+purple+";").toString();
     }
 }
