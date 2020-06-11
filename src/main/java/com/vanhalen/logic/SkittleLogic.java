@@ -5,6 +5,7 @@ import com.vanhalen.interfaces.MqttServiceInterface;
 import com.vanhalen.interfaces.SkittleLogicInterface;
 import com.vanhalen.repositories.SkittleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,16 +13,18 @@ public class SkittleLogic implements SkittleLogicInterface {
 
     private SkittleRepository _skittleRepository;
     private MqttServiceInterface _mqttService;
+    private String _vendorTopic;
 
     @Autowired
-    public SkittleLogic(SkittleRepository skittleRepository, MqttServiceInterface mqttService) {
+    public SkittleLogic(@Value("${mqtt.client.topic.vendor}") String vendorTopic, SkittleRepository skittleRepository, MqttServiceInterface mqttService) {
         _skittleRepository = skittleRepository;
         _mqttService = mqttService;
+        _vendorTopic = vendorTopic;
     }
 
     public boolean sortSkittles(Skittle skittle) {
         try {
-            _mqttService.publishMessage("VanHalen/Vending", skittle.toString().getBytes());
+            _mqttService.publishMessage(_vendorTopic, skittle.toString().getBytes());
             return true;
         } catch (Exception ex) {
             return false;

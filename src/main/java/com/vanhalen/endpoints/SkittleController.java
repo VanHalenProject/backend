@@ -16,29 +16,18 @@ import org.springframework.web.bind.annotation.*;
 public class SkittleController {
 
     private SkittleLogicInterface _skittleLogic;
-    private MqttServiceInterface _mqttService;
 
     @Autowired
-    public SkittleController(SkittleLogicInterface skittleLogic, MqttServiceInterface mqttService){
+    public SkittleController(SkittleLogicInterface skittleLogic){
         _skittleLogic = skittleLogic;
-        _mqttService = mqttService;
     }
-
-//    @ApiOperation(value = "Use username and password to obtain JWT bearer token", response = String.class)
-//    @PostMapping("/sort")
-//    public ResponseEntity SortSkittles(@RequestBody String color){
-//        try{
-//            _mqttService.publishMessage("VanHalen/Vending", String.valueOf(color).getBytes());
-//            return ResponseEntity.status(HttpStatus.OK).body("Mqtt message sent");
-//        } catch (Exception ex) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-//        }
-//    }
 
     @PostMapping("/sort")
     public ResponseEntity SortSkittles(@RequestBody Skittle skittle) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body("Mqtt message sent");
+            if (_skittleLogic.sortSkittles(skittle))
+                return ResponseEntity.status(HttpStatus.OK).body("Message sent");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to send message");
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
