@@ -1,5 +1,6 @@
 package com.vanhalen.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Getter
 public class Skittle {
     @Id
+    @JsonIgnore
     private UUID id;
 
     private int red;
@@ -24,6 +26,14 @@ public class Skittle {
     private int purple;
 
     public Skittle() {
+    }
+
+    public Skittle(int red, int orange, int yellow, int green, int purple) {
+        this.red = red;
+        this.orange = orange;
+        this.yellow = yellow;
+        this.green = green;
+        this.purple = purple;
     }
 
     @Override

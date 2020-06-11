@@ -30,4 +30,13 @@ public class SkittleLogic implements SkittleLogicInterface {
             return false;
         }
     }
+
+    public Skittle getSkittles() {
+        try {
+            var skittles = _skittleRepository.findAll();
+            return skittles.get(0);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 }
