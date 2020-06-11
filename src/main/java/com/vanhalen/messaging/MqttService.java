@@ -4,6 +4,7 @@ import com.vanhalen.domain.Skittle;
 import com.vanhalen.interfaces.MqttServiceInterface;
 import com.vanhalen.repositories.SkittleRepository;
 import org.eclipse.paho.client.mqttv3.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,13 @@ public class MqttService implements MqttServiceInterface, MqttCallback {
     private IMqttClient _mqttClient;
     private SkittleRepository _skittleRepository;
 
+    @Autowired
     public MqttService(@Value("${mqtt.client.host-url}") String mqttHostUrl, @Value("${mqtt.client.publisher-id}") String publisherId,
                        @Value("${mqtt.client.topic.sorting}") String sortingTopic, SkittleRepository skittleRepository) throws MqttException {
-        if (!_mqttClient.isConnected()) {
-            _mqttClient = new MqttClient(mqttHostUrl, publisherId);
-            _mqttClient.connect();
-            _mqttClient.setCallback(this);
-            _mqttClient.subscribe(sortingTopic);
-        }
+        _mqttClient = new MqttClient(mqttHostUrl, publisherId);
+        _mqttClient.connect();
+        _mqttClient.setCallback(this);
+        _mqttClient.subscribe(sortingTopic);
         _skittleRepository = skittleRepository;
     }
 
