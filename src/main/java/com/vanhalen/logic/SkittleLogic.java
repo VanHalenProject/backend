@@ -16,7 +16,7 @@ public class SkittleLogic implements SkittleLogicInterface {
     private String _vendorTopic;
 
     @Autowired
-    public SkittleLogic(@Value("${mqtt.client.topic.vendor}") String vendorTopic, SkittleRepository skittleRepository, MqttServiceInterface mqttService) {
+    public SkittleLogic(@Value("${mqtt.client.topic.sorting}") String vendorTopic, SkittleRepository skittleRepository, MqttServiceInterface mqttService) {
         _skittleRepository = skittleRepository;
         _mqttService = mqttService;
         _vendorTopic = vendorTopic;
@@ -25,6 +25,15 @@ public class SkittleLogic implements SkittleLogicInterface {
     public boolean sortSkittles(Skittle skittle) {
         try {
             _mqttService.publishMessage(_vendorTopic, skittle.toString().getBytes());
+            var skittleToUpdate = getSkittles();
+            if (skittleToUpdate != null) {
+                skittleToUpdate.setRed(skittleToUpdate.getRed() - skittle.getRed());
+                skittleToUpdate.setOrange(skittleToUpdate.getOrange() - skittle.getOrange());
+                skittleToUpdate.setYellow(skittleToUpdate.getYellow() - skittle.getYellow());
+                skittleToUpdate.setGreen(skittleToUpdate.getGreen() - skittle.getGreen());
+                skittleToUpdate.setPurple(skittleToUpdate.getPurple() - skittle.getPurple());
+                _skittleRepository.save(skittleToUpdate);
+            }
             return true;
         } catch (Exception ex) {
             return false;
