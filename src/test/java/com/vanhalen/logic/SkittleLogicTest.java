@@ -13,6 +13,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -57,5 +59,55 @@ public class SkittleLogicTest {
         //Assert
         assertThat(actualResult).isEqualTo(true);
         assertThat(skittle.toString()).isEqualTo(new Skittle(4, 4, 4, 4, 4).toString());
+    }
+
+    @Test
+    public void sortSkittles_Mqtt_Throws_Error_When_Negative_Result() throws Exception {
+        //Arrange
+        Skittle skittle = new Skittle(5, 5, 5, 5, 5);
+        Skittle sortSkittle = new Skittle(-1, -1, -1, -1, -1);
+
+        Mockito.when(_skittleRepository.findAll()).thenReturn(Arrays.asList(skittle));
+        Mockito.doNothing().when(_mqttService).publishMessage(anyString(), any(byte[].class));
+
+        //Act
+        Exception exception = new Exception();
+
+        try {
+            _skittleLogic.sortSkittles(sortSkittle);
+        } catch (Exception ex){
+            exception = ex;
+        }
+
+        //Assert
+        String expectedMessage = "Request denied because: Illegal amount";
+        String actualMessage = exception.getMessage();
+        assertThat(skittle.toString()).isEqualTo(new Skittle(5, 5, 5, 5, 5).toString());
+    }
+
+    @Test
+    public void sortSkittles_Throws_Error_When_Empty() throws Exception {
+        //Arrange
+        Skittle skittle = new Skittle(0, 0, 0, 0, 0);
+        Skittle sortSkittle = new Skittle(1, 1, 1, 1, 1);
+
+        Mockito.when(_skittleRepository.findAll()).thenReturn(Arrays.asList(skittle));
+        Mockito.doNothing().when(_mqttService).publishMessage(anyString(), any(byte[].class));
+
+        Exception exception = new Exception();
+
+        //Act
+        try {
+            _skittleLogic.sortSkittles(sortSkittle);
+        } catch (Exception ex){
+            exception = ex;
+        }
+
+        //Assert
+        String expectedMessage = "Request denied because: The sorter is empty";
+        String actualMessage = exception.getMessage();
+
+        assertThat(actualMessage.equals(expectedMessage));
+        assertThat(skittle.toString()).isEqualTo(new Skittle(0, 0, 0, 0, 0).toString());
     }
 }
