@@ -1,6 +1,5 @@
 package com.vanhalen.messaging;
 
-import com.vanhalen.domain.Skittle;
 import com.vanhalen.interfaces.MqttServiceInterface;
 import com.vanhalen.repositories.SkittleRepository;
 import org.eclipse.paho.client.mqttv3.*;
@@ -23,7 +22,7 @@ public class MqttService implements MqttServiceInterface, MqttCallback {
         _mqttClient = new MqttClient(mqttHostUrl, publisherId);
         _mqttClient.connect();
         _mqttClient.setCallback(this);
-        _mqttClient.subscribe(sortingTopic);
+        _mqttClient.subscribe(sortingTopic, 2);
         _skittleRepository = skittleRepository;
     }
 
@@ -42,13 +41,18 @@ public class MqttService implements MqttServiceInterface, MqttCallback {
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
         var colors = mqttMessage.toString().split(";");
-        _skittleRepository.save(new Skittle(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2]),
-                Integer.parseInt(colors[3]), Integer.parseInt(colors[4])));
+        var skittle = _skittleRepository.findAll().get(0);
+        skittle.setRed(skittle.getRed() + Integer.parseInt(colors[0]));
+        skittle.setOrange((skittle.getOrange() + Integer.parseInt(colors[1])));
+        skittle.setYellow((skittle.getYellow() + Integer.parseInt(colors[2])));
+        skittle.setGreen((skittle.getGreen() + Integer.parseInt(colors[3])));
+        skittle.setPurple((skittle.getPurple() + Integer.parseInt(colors[4])));
+        _skittleRepository.save(skittle);
         System.out.println(mqttMessage);
     }
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-        
+
     }
 }
