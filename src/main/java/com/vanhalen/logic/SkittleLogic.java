@@ -16,7 +16,7 @@ public class SkittleLogic implements SkittleLogicInterface {
     private String _vendorTopic;
 
     @Autowired
-    public SkittleLogic(@Value("${mqtt.client.topic.sorting}") String vendorTopic, SkittleRepository skittleRepository, MqttServiceInterface mqttService) {
+    public SkittleLogic(@Value("${mqtt.client.topic.vendor}") String vendorTopic, SkittleRepository skittleRepository, MqttServiceInterface mqttService) {
         _skittleRepository = skittleRepository;
         _mqttService = mqttService;
         _vendorTopic = vendorTopic;
